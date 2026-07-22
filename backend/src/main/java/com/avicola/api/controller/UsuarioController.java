@@ -1,9 +1,9 @@
 package com.avicola.api.controller;
 
+import com.avicola.api.domain.model.Usuario;
+import com.avicola.api.domain.repository.UsuarioRepository;
 import com.avicola.api.dto.AuthDtos.UsuarioResponse;
-import com.avicola.api.entity.Usuario;
 import com.avicola.api.exception.RecursoNaoEncontradoException;
-import com.avicola.api.repository.UsuarioRepository;
 import com.avicola.api.security.AuthenticatedUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,9 +19,9 @@ public class UsuarioController {
 
     @GetMapping("/me")
     public UsuarioResponse me() {
-        Usuario usuario = usuarioRepository.findById(AuthenticatedUser.getUsuarioId())
+        Usuario usuario = usuarioRepository.buscarPorId(AuthenticatedUser.getUsuarioId())
                 .orElseThrow(() -> new RecursoNaoEncontradoException("Usuário não encontrado."));
 
-        return new UsuarioResponse(usuario.getId(), usuario.getNome(), usuario.getEmail());
+        return new UsuarioResponse(usuario.getId(), usuario.getNome(), usuario.getEmail().getValor());
     }
 }

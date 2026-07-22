@@ -1,6 +1,6 @@
 package com.avicola.api.security;
 
-import com.avicola.api.entity.Usuario;
+import com.avicola.api.domain.model.Usuario;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -35,7 +35,7 @@ public class JwtService {
 
         String token = Jwts.builder()
                 .subject(usuario.getId().toString())
-                .claim("email", usuario.getEmail())
+                .claim("email", usuario.getEmail().getValor())
                 .claim("nome", usuario.getNome())
                 .issuedAt(Date.from(agora))
                 .expiration(Date.from(expiraEm))
