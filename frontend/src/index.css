@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+@theme {
+  /* Sidebar / superfícies escuras da área autenticada (Painel) */
+  --color-ink-950: #141d16;
+  --color-ink-900: #1b271d;
+  --color-ink-800: #263626;
+  --color-ink-700: #344a35;
+
+  /* Verde sálvia — botões primários e acentos da área autenticada */
+  --color-sage-600: #5f8a6f;
+  --color-sage-700: #4d7259;
+  --color-sage-800: #3d5c47;
+
+  /* Fundo creme e bordas quentes do "Painel" */
+  --color-cream-50: #f5f4ee;
+  --color-cream-100: #eeece2;
+  --color-cream-border: #e2ded0;
+}
