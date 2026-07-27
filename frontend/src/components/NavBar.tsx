@@ -10,41 +10,57 @@ export function NavBar() {
     navigate("/");
   }
 
+  const inicial = usuario?.nome.trim().charAt(0).toUpperCase() ?? "?";
+
   return (
     <header className="border-b border-gray-200 bg-white">
       <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
-        <Link to="/" className="text-lg font-semibold text-green-800">
+        <Link to="/" className="text-lg font-semibold text-sage-800">
           ProOvo
         </Link>
-        <div className="flex items-center gap-4 text-sm">
-          <Link to="/contato" className="text-gray-600 hover:text-green-800">
+
+        <div className="flex items-center gap-5 text-sm">
+          <Link to="/contato" className="text-gray-600 hover:text-sage-700">
             Fale Conosco
           </Link>
+          {usuario && (
+            <Link to="/home" className="text-gray-600 hover:text-sage-700">
+              Meus Lotes
+            </Link>
+          )}
+
+          <div className="h-5 w-px bg-gray-200" />
+
           {usuario ? (
-            <>
-              <Link to="/home" className="text-gray-600 hover:text-green-800">
-                Meus Lotes
-              </Link>
-              <span className="text-gray-400">{usuario.nome}</span>
+            <div className="flex items-center gap-3">
+              <span className="flex items-center gap-2 text-gray-700">
+                <span className="flex h-7 w-7 items-center justify-center rounded-full bg-sage-100 text-xs font-semibold text-sage-800">
+                  {inicial}
+                </span>
+                {usuario.nome}
+              </span>
               <button
                 onClick={handleLogout}
-                className="rounded-md bg-gray-100 px-3 py-1.5 text-gray-700 hover:bg-gray-200"
+                className="rounded-md border border-gray-300 px-3 py-1.5 font-medium text-gray-700 hover:border-sage-600 hover:text-sage-700"
               >
                 Sair
               </button>
-            </>
+            </div>
           ) : (
-            <>
-              <Link to="/login" className="text-gray-600 hover:text-green-800">
+            <div className="flex items-center gap-3">
+              <Link
+                to="/login"
+                className="rounded-md border border-gray-300 px-3 py-1.5 font-medium text-gray-700 hover:border-sage-600 hover:text-sage-700"
+              >
                 Entrar
               </Link>
               <Link
                 to="/cadastro"
-                className="rounded-md bg-green-700 px-3 py-1.5 text-white hover:bg-green-800"
+                className="rounded-md bg-sage-700 px-3 py-1.5 font-medium text-white hover:bg-sage-800"
               >
                 Cadastrar
               </Link>
-            </>
+            </div>
           )}
         </div>
       </nav>

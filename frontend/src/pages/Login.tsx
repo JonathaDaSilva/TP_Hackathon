@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { getErrorMessage, getFieldErrors } from "../services/api";
+import { AuthLayout } from "../components/AuthLayout";
 
 export function Login() {
   const { login } = useAuth();
@@ -37,7 +38,10 @@ export function Login() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-57px)] items-center justify-center bg-cream-50 px-4 py-16">
+    <AuthLayout
+      titulo="Bem-vindo(a) de volta"
+      subtitulo="Acompanhe a saúde dos seus lotes e retome de onde parou."
+    >
       <div className="w-full max-w-sm rounded-xl border border-cream-border bg-white p-8 shadow-sm">
         <h1 className="text-2xl font-semibold text-gray-900">Entrar</h1>
         <p className="mt-1 text-sm text-gray-500">Acesse sua conta para continuar a triagem.</p>
@@ -85,6 +89,6 @@ export function Login() {
           </Link>
         </p>
       </div>
-    </div>
+    </AuthLayout>
   );
 }

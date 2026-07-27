@@ -41,11 +41,11 @@ export function Landing() {
       <section className="relative overflow-hidden">
         <div className="mx-auto grid max-w-6xl items-center gap-10 px-4 py-16 lg:grid-cols-2 lg:gap-16 lg:py-24">
           <div className="text-center lg:text-left">
-            <span className="inline-flex items-center rounded-full bg-green-100 px-3 py-1 text-xs font-medium text-green-800">
+            <span className="inline-flex items-center rounded-full bg-sage-100 px-3 py-1 text-xs font-medium text-sage-800">
               Feito para o pequeno e médio avicultor
             </span>
 
-            <h1 className="mt-5 text-4xl font-bold tracking-tight text-green-950 sm:text-5xl">
+            <h1 className="mt-5 text-4xl font-bold tracking-tight text-sage-800 sm:text-5xl">
               ProOvo: triagem rápida da saúde do seu lote
             </h1>
 
@@ -57,13 +57,13 @@ export function Landing() {
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
               <Link
                 to="/cadastro"
-                className="rounded-md bg-green-700 px-6 py-3 text-center font-medium text-white shadow-sm transition hover:bg-green-800"
+                className="rounded-md bg-sage-700 px-6 py-3 text-center font-medium text-white shadow-sm transition hover:bg-sage-800"
               >
                 Começar agora
               </Link>
               <Link
                 to="/login"
-                className="rounded-md border border-gray-300 bg-white px-6 py-3 text-center font-medium text-gray-700 transition hover:border-green-700 hover:text-green-800"
+                className="rounded-md border border-gray-300 bg-white px-6 py-3 text-center font-medium text-gray-700 transition hover:border-sage-600 hover:text-sage-700"
               >
                 Já tenho conta
               </Link>
@@ -83,7 +83,7 @@ export function Landing() {
               key={recurso.titulo}
               className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition hover:shadow-md"
             >
-              <div className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-green-100 text-green-800">
+              <div className="inline-flex h-11 w-11 items-center justify-center rounded-lg bg-sage-100 text-sage-800">
                 {recurso.icone}
               </div>
               <h2 className="mt-4 text-base font-semibold text-gray-900">{recurso.titulo}</h2>
@@ -94,14 +94,16 @@ export function Landing() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 pb-20">
-        <div className="flex items-start gap-3 rounded-lg border-l-4 border-amber-400 bg-amber-50 p-4">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mt-0.5 h-5 w-5 shrink-0 text-amber-600">
-            <path d="M12 9v4M12 17h.01" />
-            <path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z" />
-          </svg>
-          <p className="text-sm text-amber-900">
-            Atenção: esta plataforma instrui e apoia o manejo, mas não substitui a avaliação
-            de um profissional. Em caso de dúvida, contate um especialista ou veterinário.
+        <div className="border-t border-gray-200 pt-6">
+          <p className="text-xs font-semibold uppercase tracking-wider text-gray-500">
+            Aviso importante
+          </p>
+          <p className="mt-2 max-w-3xl text-sm leading-relaxed text-gray-600">
+            Os resultados apresentados por esta plataforma têm caráter exclusivamente
+            informativo e educacional, servindo como apoio à tomada de decisão no manejo do
+            plantel. Este sistema não realiza diagnóstico veterinário e não substitui, em
+            nenhuma hipótese, a avaliação técnica de um médico veterinário ou profissional
+            habilitado.
           </p>
         </div>
       </section>

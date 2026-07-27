@@ -7,7 +7,8 @@
   --color-ink-800: #263626;
   --color-ink-700: #344a35;
 
-  /* Verde sálvia — botões primários e acentos da área autenticada */
+  /* Verde sálvia — botões primários e acentos em todo o sistema */
+  --color-sage-100: #e3ebe5;
   --color-sage-600: #5f8a6f;
   --color-sage-700: #4d7259;
   --color-sage-800: #3d5c47;
