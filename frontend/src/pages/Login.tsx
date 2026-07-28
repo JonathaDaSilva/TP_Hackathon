@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "sonner";
 import { useAuth } from "../context/AuthContext";
 import { getErrorMessage, getFieldErrors } from "../services/api";
 import { AuthLayout } from "../components/AuthLayout";
@@ -10,27 +11,26 @@ export function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [erro, setErro] = useState<string | null>(null);
   const [errosCampo, setErrosCampo] = useState<Record<string, string>>({});
   const [enviando, setEnviando] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    setErro(null);
     setErrosCampo({});
     setEnviando(true);
 
     try {
       await login(email, senha);
+      toast.success("Login realizado com sucesso.");
       navigate("/home");
     } catch (err) {
       const camposInvalidos = getFieldErrors(err);
       if (camposInvalidos) {
         setErrosCampo(camposInvalidos);
       } else if (axios.isAxiosError(err) && err.response?.status === 401) {
-        setErro("E-mail ou senha inválidos.");
+        toast.error("E-mail ou senha inválidos.");
       } else {
-        setErro(getErrorMessage(err, "Não foi possível entrar. Tente novamente."));
+        toast.error(getErrorMessage(err, "Não foi possível entrar. Tente novamente."));
       }
     } finally {
       setEnviando(false);
@@ -70,8 +70,6 @@ export function Login() {
             />
             {errosCampo.senha && <p className="mt-1 text-xs text-red-600">{errosCampo.senha}</p>}
           </div>
-
-          {erro && <p className="text-sm text-red-600">{erro}</p>}
 
           <button
             type="submit"

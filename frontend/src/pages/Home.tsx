@@ -1,5 +1,6 @@
 import { useEffect, useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 import { api, getErrorMessage, getFieldErrors } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { getPularInstrucoesQuiz } from "../services/preferences";
@@ -13,7 +14,6 @@ export function Home() {
   const [lotes, setLotes] = useState<Lote[]>([]);
   const [carregando, setCarregando] = useState(true);
   const [novaIdentificacao, setNovaIdentificacao] = useState("");
-  const [erro, setErro] = useState<string | null>(null);
   const [erroIdentificacao, setErroIdentificacao] = useState<string | null>(null);
   const [editandoId, setEditandoId] = useState<number | null>(null);
   const [edicaoTexto, setEdicaoTexto] = useState("");
@@ -28,8 +28,8 @@ export function Home() {
     try {
       const { data } = await api.get<Lote[]>("/lotes");
       setLotes(data);
-    } catch {
-      setErro("Não foi possível carregar seus lotes.");
+    } catch (err) {
+      toast.error(getErrorMessage(err, "Não foi possível carregar seus lotes."));
     } finally {
       setCarregando(false);
     }
@@ -39,19 +39,19 @@ export function Home() {
     e.preventDefault();
     if (!novaIdentificacao.trim()) return;
 
-    setErro(null);
     setErroIdentificacao(null);
 
     try {
       const { data } = await api.post<Lote>("/lotes", { identificacao: novaIdentificacao });
       setLotes((atual) => [data, ...atual]);
       setNovaIdentificacao("");
+      toast.success("Lote cadastrado com sucesso.");
     } catch (err) {
       const camposInvalidos = getFieldErrors(err);
       if (camposInvalidos?.identificacao) {
         setErroIdentificacao(camposInvalidos.identificacao);
       } else {
-        setErro(getErrorMessage(err, "Não foi possível criar o lote."));
+        toast.error(getErrorMessage(err, "Não foi possível criar o lote."));
       }
     }
   }
@@ -69,6 +69,7 @@ export function Home() {
       const { data } = await api.put<Lote>(`/lotes/${id}`, { identificacao: edicaoTexto });
       setLotes((atual) => atual.map((l) => (l.id === id ? data : l)));
       setEditandoId(null);
+      toast.success("Lote atualizado com sucesso.");
     } catch (err) {
       const camposInvalidos = getFieldErrors(err);
       setErroEdicao(camposInvalidos?.identificacao ?? getErrorMessage(err, "Não foi possível atualizar o lote."));
@@ -79,8 +80,9 @@ export function Home() {
     try {
       await api.delete(`/lotes/${id}`);
       setLotes((atual) => atual.filter((l) => l.id !== id));
+      toast.success("Lote excluído com sucesso.");
     } catch (err) {
-      setErro(getErrorMessage(err, "Não foi possível excluir o lote."));
+      toast.error(getErrorMessage(err, "Não foi possível excluir o lote."));
     }
   }
 
@@ -122,8 +124,6 @@ export function Home() {
             Adicionar
           </button>
         </form>
-
-        {erro && <p className="mt-3 text-sm text-red-600">{erro}</p>}
       </div>
 
       <div className="mt-6 divide-y divide-cream-border rounded-xl border border-cream-border bg-white shadow-sm">

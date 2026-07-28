@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import emailjs from "@emailjs/browser";
+import { toast } from "sonner";
 import { api, getFieldErrors } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { Breadcrumb } from "../components/Breadcrumb";
@@ -14,13 +15,11 @@ export function Contato() {
   const [email, setEmail] = useState("");
   const [mensagem, setMensagem] = useState("");
   const [enviando, setEnviando] = useState(false);
-  const [status, setStatus] = useState<"idle" | "sucesso" | "erro">("idle");
   const [errosCampo, setErrosCampo] = useState<Record<string, string>>({});
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setEnviando(true);
-    setStatus("idle");
     setErrosCampo({});
 
     try {
@@ -44,7 +43,7 @@ export function Contato() {
         }
       }
 
-      setStatus("sucesso");
+      toast.success("Mensagem enviada com sucesso. Em breve entraremos em contato.");
       setNome("");
       setEmail("");
       setMensagem("");
@@ -53,7 +52,7 @@ export function Contato() {
       if (camposInvalidos) {
         setErrosCampo(camposInvalidos);
       } else {
-        setStatus("erro");
+        toast.error("Não foi possível enviar sua mensagem. Tente novamente.");
       }
     } finally {
       setEnviando(false);
@@ -75,64 +74,53 @@ export function Contato() {
             Tem uma dúvida, feedback ou sugestão? Escreva para a gente.
           </p>
 
-        <form onSubmit={handleSubmit} className="mt-6 space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Nome</label>
-            <input
-              type="text"
-              required
-              minLength={2}
-              value={nome}
-              onChange={(e) => setNome(e.target.value)}
-              className="mt-1 w-full rounded-md border border-gray-200 px-3 py-2 focus:border-sage-600 focus:outline-none"
-            />
-            {errosCampo.nome && <p className="mt-1 text-xs text-red-600">{errosCampo.nome}</p>}
-          </div>
+          <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Nome</label>
+              <input
+                type="text"
+                required
+                minLength={2}
+                value={nome}
+                onChange={(e) => setNome(e.target.value)}
+                className="mt-1 w-full rounded-md border border-gray-200 px-3 py-2 focus:border-sage-600 focus:outline-none"
+              />
+              {errosCampo.nome && <p className="mt-1 text-xs text-red-600">{errosCampo.nome}</p>}
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">E-mail</label>
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 w-full rounded-md border border-gray-200 px-3 py-2 focus:border-sage-600 focus:outline-none"
-            />
-            {errosCampo.email && <p className="mt-1 text-xs text-red-600">{errosCampo.email}</p>}
-          </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">E-mail</label>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-1 w-full rounded-md border border-gray-200 px-3 py-2 focus:border-sage-600 focus:outline-none"
+              />
+              {errosCampo.email && <p className="mt-1 text-xs text-red-600">{errosCampo.email}</p>}
+            </div>
 
-          <div>
-            <label className="block text-sm font-medium text-gray-700">Mensagem</label>
-            <textarea
-              required
-              minLength={5}
-              rows={5}
-              value={mensagem}
-              onChange={(e) => setMensagem(e.target.value)}
-              className="mt-1 w-full rounded-md border border-gray-200 px-3 py-2 focus:border-sage-600 focus:outline-none"
-            />
-            {errosCampo.mensagem && <p className="mt-1 text-xs text-red-600">{errosCampo.mensagem}</p>}
-          </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Mensagem</label>
+              <textarea
+                required
+                minLength={5}
+                rows={5}
+                value={mensagem}
+                onChange={(e) => setMensagem(e.target.value)}
+                className="mt-1 w-full rounded-md border border-gray-200 px-3 py-2 focus:border-sage-600 focus:outline-none"
+              />
+              {errosCampo.mensagem && <p className="mt-1 text-xs text-red-600">{errosCampo.mensagem}</p>}
+            </div>
 
-          {status === "sucesso" && (
-            <p className="text-sm text-sage-700">
-              Mensagem enviada com sucesso. Em breve entraremos em contato.
-            </p>
-          )}
-          {status === "erro" && (
-            <p className="text-sm text-red-600">
-              Não foi possível enviar sua mensagem. Tente novamente.
-            </p>
-          )}
-
-          <button
-            type="submit"
-            disabled={enviando}
-            className="w-full rounded-md bg-sage-700 py-2 font-medium text-white hover:bg-sage-800 disabled:opacity-60"
-          >
-            {enviando ? "Enviando..." : "Enviar mensagem"}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={enviando}
+              className="w-full rounded-md bg-sage-700 py-2 font-medium text-white hover:bg-sage-800 disabled:opacity-60"
+            >
+              {enviando ? "Enviando..." : "Enviar mensagem"}
+            </button>
+          </form>
         </div>
       </div>
     </div>

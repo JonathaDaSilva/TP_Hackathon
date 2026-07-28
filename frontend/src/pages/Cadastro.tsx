@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "sonner";
 import { useAuth } from "../context/AuthContext";
 import { getErrorMessage, getFieldErrors } from "../services/api";
 import { AuthLayout } from "../components/AuthLayout";
@@ -13,27 +14,26 @@ export function Cadastro() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [senhaFoiTocada, setSenhaFoiTocada] = useState(false);
-  const [erro, setErro] = useState<string | null>(null);
   const [errosCampo, setErrosCampo] = useState<Record<string, string>>({});
   const [enviando, setEnviando] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    setErro(null);
     setErrosCampo({});
     setEnviando(true);
 
     try {
       await registrar(nome, email, senha);
+      toast.success("Conta criada com sucesso.");
       navigate("/home");
     } catch (err) {
       const camposInvalidos = getFieldErrors(err);
       if (camposInvalidos) {
         setErrosCampo(camposInvalidos);
       } else if (axios.isAxiosError(err) && err.response?.status === 409) {
-        setErro("Já existe uma conta cadastrada com este e-mail.");
+        toast.error("Já existe uma conta cadastrada com este e-mail.");
       } else {
-        setErro(getErrorMessage(err, "Não foi possível concluir o cadastro. Verifique os dados e tente novamente."));
+        toast.error(getErrorMessage(err, "Não foi possível concluir o cadastro. Verifique os dados e tente novamente."));
       }
     } finally {
       setEnviando(false);
@@ -90,8 +90,6 @@ export function Cadastro() {
             {errosCampo.senha && <p className="mt-1 text-xs text-red-600">{errosCampo.senha}</p>}
             {senhaFoiTocada && <PasswordStrength senha={senha} />}
           </div>
-
-          {erro && <p className="text-sm text-red-600">{erro}</p>}
 
           <button
             type="submit"
