@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
 import { getErrorMessage, getFieldErrors } from "../services/api";
+import { AuthLayout } from "../components/AuthLayout";
+import { PasswordStrength } from "../components/PasswordStrength";
 
 export function Cadastro() {
   const { registrar } = useAuth();
@@ -10,6 +12,7 @@ export function Cadastro() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [senhaFoiTocada, setSenhaFoiTocada] = useState(false);
   const [erro, setErro] = useState<string | null>(null);
   const [errosCampo, setErrosCampo] = useState<Record<string, string>>({});
   const [enviando, setEnviando] = useState(false);
@@ -38,10 +41,13 @@ export function Cadastro() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-57px)] items-center justify-center bg-cream-50 px-4 py-16">
+    <AuthLayout
+      titulo="Comece a cuidar do seu plantel"
+      subtitulo="Cadastre-se para acompanhar a saúde dos seus lotes e gerar relatórios de triagem."
+    >
       <div className="w-full max-w-sm rounded-xl border border-cream-border bg-white p-8 shadow-sm">
         <h1 className="text-2xl font-semibold text-gray-900">Criar conta</h1>
-        <p className="mt-1 text-sm text-gray-500">Leva menos de um minuto.</p>
+        <p className="mt-1 text-sm text-gray-500">Preencha os dados abaixo para começar.</p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div>
@@ -74,16 +80,15 @@ export function Cadastro() {
             <input
               type="password"
               required
-              minLength={6}
+              minLength={10}
+              maxLength={15}
               value={senha}
+              onFocus={() => setSenhaFoiTocada(true)}
               onChange={(e) => setSenha(e.target.value)}
               className="mt-1 w-full rounded-md border border-gray-200 px-3 py-2 focus:border-sage-600 focus:outline-none"
             />
-            {errosCampo.senha ? (
-              <p className="mt-1 text-xs text-red-600">{errosCampo.senha}</p>
-            ) : (
-              <p className="mt-1 text-xs text-gray-500">Mínimo de 6 caracteres.</p>
-            )}
+            {errosCampo.senha && <p className="mt-1 text-xs text-red-600">{errosCampo.senha}</p>}
+            {senhaFoiTocada && <PasswordStrength senha={senha} />}
           </div>
 
           {erro && <p className="text-sm text-red-600">{erro}</p>}
@@ -104,6 +109,6 @@ export function Cadastro() {
           </Link>
         </p>
       </div>
-    </div>
+    </AuthLayout>
   );
 }
