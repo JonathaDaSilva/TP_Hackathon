@@ -1,5 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { IconBook } from "./icons";
 
 function IconInicio() {
   return (
@@ -30,6 +31,7 @@ function IconContato() {
 const NAV_ITEMS = [
   { label: "Início", to: "/home", icon: IconInicio },
   { label: "Triagem", to: "/home", icon: IconTriagem },
+  { label: "Instruções", to: "/instrucoes", icon: IconBook },
   { label: "Fale conosco", to: "/contato", icon: IconContato },
 ];
 

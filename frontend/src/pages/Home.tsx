@@ -4,6 +4,7 @@ import { api, getErrorMessage, getFieldErrors } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 import { getPularInstrucoesQuiz } from "../services/preferences";
 import { Breadcrumb } from "../components/Breadcrumb";
+import { IconPencil, IconTrash } from "../components/icons";
 import type { Lote } from "../services/types";
 
 export function Home() {
@@ -177,15 +178,19 @@ export function Home() {
                   </button>
                   <button
                     onClick={() => iniciarEdicao(lote)}
-                    className="text-gray-500 hover:underline"
+                    aria-label="Editar lote"
+                    title="Editar"
+                    className="rounded-md p-1.5 text-gray-500 hover:bg-gray-100 hover:text-sage-700"
                   >
-                    Editar
+                    <IconPencil />
                   </button>
                   <button
                     onClick={() => excluirLote(lote.id)}
-                    className="text-red-600 hover:underline"
+                    aria-label="Excluir lote"
+                    title="Excluir"
+                    className="rounded-md p-1.5 text-gray-500 hover:bg-red-50 hover:text-red-600"
                   >
-                    Excluir
+                    <IconTrash />
                   </button>
                 </>
               )}

@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { HeroIllustration } from "../components/HeroIllustration";
+import { useAuth } from "../context/AuthContext";
 
 const RECURSOS = [
   {
@@ -36,6 +37,8 @@ const RECURSOS = [
 ];
 
 export function Landing() {
+  const { usuario } = useAuth();
+
   return (
     <div>
       <section className="relative overflow-hidden">
@@ -55,18 +58,29 @@ export function Landing() {
             </p>
 
             <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
-              <Link
-                to="/cadastro"
-                className="rounded-md bg-sage-700 px-6 py-3 text-center font-medium text-white shadow-sm transition hover:bg-sage-800"
-              >
-                Começar agora
-              </Link>
-              <Link
-                to="/login"
-                className="rounded-md border border-gray-300 bg-white px-6 py-3 text-center font-medium text-gray-700 transition hover:border-sage-600 hover:text-sage-700"
-              >
-                Já tenho conta
-              </Link>
+              {usuario ? (
+                <Link
+                  to="/home"
+                  className="rounded-md bg-sage-700 px-6 py-3 text-center font-medium text-white shadow-sm transition hover:bg-sage-800"
+                >
+                  Ir para meus lotes
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    to="/cadastro"
+                    className="rounded-md bg-sage-700 px-6 py-3 text-center font-medium text-white shadow-sm transition hover:bg-sage-800"
+                  >
+                    Começar agora
+                  </Link>
+                  <Link
+                    to="/login"
+                    className="rounded-md border border-gray-300 bg-white px-6 py-3 text-center font-medium text-gray-700 transition hover:border-sage-600 hover:text-sage-700"
+                  >
+                    Já tenho conta
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 

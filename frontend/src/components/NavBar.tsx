@@ -14,7 +14,7 @@ export function NavBar() {
 
   return (
     <header className="border-b border-gray-200 bg-white">
-      <nav className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3">
+      <nav className="flex w-full items-center justify-between px-6 py-3">
         <Link to="/" className="text-lg font-semibold text-sage-800">
           ProOvo
         </Link>

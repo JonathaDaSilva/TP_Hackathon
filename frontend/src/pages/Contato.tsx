@@ -1,12 +1,15 @@
 import { useState, type FormEvent } from "react";
 import emailjs from "@emailjs/browser";
 import { api, getFieldErrors } from "../services/api";
+import { useAuth } from "../context/AuthContext";
+import { Breadcrumb } from "../components/Breadcrumb";
 
 const EMAILJS_SERVICE_ID = import.meta.env.VITE_EMAILJS_SERVICE_ID;
 const EMAILJS_TEMPLATE_ID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 const EMAILJS_PUBLIC_KEY = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
 export function Contato() {
+  const { usuario } = useAuth();
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [mensagem, setMensagem] = useState("");
@@ -58,12 +61,19 @@ export function Contato() {
   }
 
   return (
-    <div className="flex min-h-[calc(100vh-57px)] justify-center bg-cream-50 px-4 py-16">
-      <div className="w-full max-w-lg rounded-xl border border-cream-border bg-white p-8 shadow-sm">
-        <h1 className="text-2xl font-semibold text-gray-900">Fale Conosco</h1>
-        <p className="mt-1 text-sm text-gray-500">
-          Tem uma dúvida, feedback ou sugestão? Escreva para a gente.
-        </p>
+    <div className="flex justify-center bg-cream-50 px-4 py-12">
+      <div className="w-full max-w-lg">
+        {usuario && (
+          <div className="mb-6">
+            <Breadcrumb items={[{ label: "Painel", to: "/home" }, { label: "Fale conosco" }]} />
+          </div>
+        )}
+
+        <div className="rounded-xl border border-cream-border bg-white p-8 shadow-sm">
+          <h1 className="text-2xl font-semibold text-gray-900">Fale Conosco</h1>
+          <p className="mt-1 text-sm text-gray-500">
+            Tem uma dúvida, feedback ou sugestão? Escreva para a gente.
+          </p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div>
@@ -123,6 +133,7 @@ export function Contato() {
             {enviando ? "Enviando..." : "Enviar mensagem"}
           </button>
         </form>
+        </div>
       </div>
     </div>
   );
