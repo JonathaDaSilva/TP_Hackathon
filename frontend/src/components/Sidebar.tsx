@@ -46,7 +46,7 @@ export function Sidebar() {
   }
 
   return (
-    <aside className="flex h-screen w-60 shrink-0 flex-col bg-ink-950 text-cream-100">
+    <aside className="sticky top-0 flex h-screen w-60 shrink-0 flex-col self-start overflow-y-auto bg-ink-950 text-cream-100">
       <div className="flex items-center gap-2 px-5 py-5">
         <span className="flex h-6 w-6 items-center justify-center rounded-md bg-sage-600">
           <span className="h-2 w-2 rounded-full bg-white" />

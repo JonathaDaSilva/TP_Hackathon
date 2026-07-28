@@ -13,7 +13,7 @@ export function NavBar() {
   const inicial = usuario?.nome.trim().charAt(0).toUpperCase() ?? "?";
 
   return (
-    <header className="border-b border-gray-200 bg-white">
+    <header className="sticky top-0 z-20 border-b border-gray-200 bg-white">
       <nav className="flex w-full items-center justify-between px-6 py-3">
         <Link to="/" className="text-lg font-semibold text-sage-800">
           ProOvo

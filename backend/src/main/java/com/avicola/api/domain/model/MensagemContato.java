@@ -25,20 +25,24 @@ public class MensagemContato {
     @AttributeOverride(name = "valor", column = @Column(name = "email", nullable = false, length = 180))
     private Email email;
 
+    @Column(nullable = false, length = 30)
+    private String tipo;
+
     @Column(nullable = false, length = 2000)
     private String mensagem;
 
     @Column(nullable = false, updatable = false)
     private Instant enviadoEm = Instant.now();
 
-    private MensagemContato(String nome, Email email, String mensagem) {
+    private MensagemContato(String nome, Email email, String tipo, String mensagem) {
         this.nome = validarNome(nome);
         this.email = email;
+        this.tipo = validarTipo(tipo);
         this.mensagem = validarMensagem(mensagem);
     }
 
-    public static MensagemContato registrar(String nome, Email email, String mensagem) {
-        return new MensagemContato(nome, email, mensagem);
+    public static MensagemContato registrar(String nome, Email email, String tipo, String mensagem) {
+        return new MensagemContato(nome, email, tipo, mensagem);
     }
 
     private static String validarNome(String nome) {
@@ -46,6 +50,13 @@ public class MensagemContato {
             throw new IllegalArgumentException("Nome deve ter ao menos 2 caracteres.");
         }
         return nome.trim();
+    }
+
+    private static String validarTipo(String tipo) {
+        if (tipo == null || tipo.isBlank()) {
+            throw new IllegalArgumentException("Tipo de contato é obrigatório.");
+        }
+        return tipo.trim();
     }
 
     private static String validarMensagem(String mensagem) {
