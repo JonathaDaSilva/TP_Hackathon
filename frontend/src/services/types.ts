@@ -15,3 +15,31 @@ export interface Lote {
   identificacao: string;
   criadoEm: string;
 }
+
+export interface OpcaoResposta {
+  id: number;
+  texto: string;
+}
+
+export interface Pergunta {
+  id: number;
+  enunciado: string;
+  opcoes: OpcaoResposta[];
+}
+
+export interface CategoriaComPerguntas {
+  id: number;
+  nome: string;
+  perguntas: Pergunta[];
+}
+
+export type Cenario = "ESTAVEL" | "ATENCAO" | "ALERTA";
+
+export interface TriagemResultado {
+  id: number;
+  loteId: number;
+  pontuacaoTotal: number;
+  cenario: Cenario;
+  cenarioRotulo: string;
+  respondidoEm: string;
+}
