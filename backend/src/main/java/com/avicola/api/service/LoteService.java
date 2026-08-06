@@ -1,8 +1,10 @@
 package com.avicola.api.service;
 
 import com.avicola.api.domain.model.Lote;
+import com.avicola.api.domain.model.Triagem;
 import com.avicola.api.domain.model.Usuario;
 import com.avicola.api.domain.repository.LoteRepository;
+import com.avicola.api.domain.repository.TriagemRepository;
 import com.avicola.api.domain.repository.UsuarioRepository;
 import com.avicola.api.domain.vo.Identificacao;
 import com.avicola.api.dto.LoteDtos.LoteRequest;
@@ -20,6 +22,7 @@ public class LoteService {
 
     private final LoteRepository loteRepository;
     private final UsuarioRepository usuarioRepository;
+    private final TriagemRepository triagemRepository;
 
     @Transactional(readOnly = true)
     public List<LoteResponse> listar(Long usuarioId) {
@@ -63,6 +66,9 @@ public class LoteService {
     }
 
     private LoteResponse paraResponse(Lote lote) {
-        return new LoteResponse(lote.getId(), lote.getIdentificacao().getValor(), lote.getCriadoEm());
+        Long ultimaTriagemId = triagemRepository.buscarMaisRecentePorLoteId(lote.getId())
+                .map(Triagem::getId)
+                .orElse(null);
+        return new LoteResponse(lote.getId(), lote.getIdentificacao().getValor(), lote.getCriadoEm(), ultimaTriagemId);
     }
 }

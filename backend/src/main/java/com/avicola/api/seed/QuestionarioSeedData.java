@@ -2,13 +2,6 @@ package com.avicola.api.seed;
 
 import java.util.List;
 
-/**
- * Conteúdo do quiz de triagem entregue pela equipe de pesquisa (perguntas,
- * opções de resposta e pesos). As perguntas são agrupadas por categoria para
- * apresentação (o documento original numera 1-20 com categorias intercaladas;
- * aqui cada categoria aparece com suas perguntas juntas, na ordem de primeira
- * aparição no documento original).
- */
 final class QuestionarioSeedData {
 
     private QuestionarioSeedData() {

@@ -11,5 +11,5 @@ public class LoteDtos {
             @NotBlank @Size(min = 2, max = 120) String identificacao
     ) {}
 
-    public record LoteResponse(Long id, String identificacao, Instant criadoEm) {}
+    public record LoteResponse(Long id, String identificacao, Instant criadoEm, Long ultimaTriagemId) {}
 }

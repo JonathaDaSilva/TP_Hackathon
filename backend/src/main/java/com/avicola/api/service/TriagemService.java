@@ -8,6 +8,7 @@ import com.avicola.api.domain.model.Triagem;
 import com.avicola.api.domain.repository.LoteRepository;
 import com.avicola.api.domain.repository.PerguntaRepository;
 import com.avicola.api.domain.repository.TriagemRepository;
+import com.avicola.api.dto.RelatorioDtos.RelatorioResponse;
 import com.avicola.api.dto.TriagemDtos.RespostaRequest;
 import com.avicola.api.dto.TriagemDtos.SubmeterTriagemRequest;
 import com.avicola.api.dto.TriagemDtos.TriagemResultResponse;
@@ -60,6 +61,28 @@ public class TriagemService {
                 triagem.getCenario().name(),
                 triagem.getCenario().getRotulo(),
                 triagem.getRespondidoEm()
+        );
+    }
+
+    @Transactional(readOnly = true)
+    public RelatorioResponse buscarRelatorio(Long loteId, Long triagemId, Long usuarioId) {
+        Lote lote = loteRepository.buscarPorIdEUsuarioId(loteId, usuarioId)
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Lote não encontrado."));
+
+        Triagem triagem = triagemRepository.buscarPorIdELoteId(triagemId, lote.getId())
+                .orElseThrow(() -> new RecursoNaoEncontradoException("Triagem não encontrada."));
+
+        return new RelatorioResponse(
+                triagem.getId(),
+                lote.getId(),
+                lote.getIdentificacao().getValor(),
+                triagem.getPontuacaoTotal(),
+                triagem.getCenario().name(),
+                triagem.getCenario().getRotulo(),
+                triagem.getRespondidoEm(),
+                triagem.getCenario().getResumo(),
+                triagem.getCenario().getDiagnostico(),
+                triagem.getCenario().getDicas()
         );
     }
 

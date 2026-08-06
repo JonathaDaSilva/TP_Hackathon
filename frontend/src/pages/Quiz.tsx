@@ -159,15 +159,14 @@ export function Quiz() {
             </p>
             <p className="mt-1 text-sm text-gray-500">Pontuação total da triagem</p>
 
-            <p className="mt-6 rounded-md bg-cream-50 p-3 text-xs text-gray-500">
-              Relatório completo com diagnóstico e dicas de manejo em breve — por enquanto, esse é
-              o resultado numérico da triagem.
-            </p>
-
             <Link
-              to="/home"
+              to={`/lotes/${loteId}/triagens/${resultado.id}`}
               className="mt-6 inline-block rounded-md bg-sage-700 px-4 py-2 text-sm font-medium text-white hover:bg-sage-800"
             >
+              Ver relatório completo
+            </Link>
+
+            <Link to="/home" className="mt-3 block text-sm text-sage-700 hover:underline">
               Voltar para meus lotes
             </Link>
           </div>

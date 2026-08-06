@@ -14,6 +14,7 @@ export interface Lote {
   id: number;
   identificacao: string;
   criadoEm: string;
+  ultimaTriagemId: number | null;
 }
 
 export interface OpcaoResposta {
@@ -42,4 +43,17 @@ export interface TriagemResultado {
   cenario: Cenario;
   cenarioRotulo: string;
   respondidoEm: string;
+}
+
+export interface RelatorioTriagem {
+  triagemId: number;
+  loteId: number;
+  loteIdentificacao: string;
+  pontuacaoTotal: number;
+  cenario: Cenario;
+  cenarioRotulo: string;
+  respondidoEm: string;
+  resumo: string;
+  diagnostico: string[];
+  dicas: string[];
 }
