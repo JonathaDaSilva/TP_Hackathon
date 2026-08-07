@@ -3,9 +3,10 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { api, getErrorMessage, getFieldErrors } from "../services/api";
 import { useAuth } from "../context/AuthContext";
-import { getPularInstrucoesQuiz } from "../services/preferences";
+import { caminhoIniciarTriagem } from "../services/preferences";
 import { Breadcrumb } from "../components/Breadcrumb";
 import { IconPencil, IconTrash } from "../components/icons";
+import { Button } from "../components/Button";
 import type { Lote } from "../services/types";
 
 export function Home() {
@@ -87,11 +88,11 @@ export function Home() {
   }
 
   function iniciarTriagem(loteId: number) {
-    if (getPularInstrucoesQuiz()) {
-      navigate(`/lotes/${loteId}/quiz`);
-    } else {
-      navigate(`/lotes/${loteId}/instrucoes`);
-    }
+    navigate(caminhoIniciarTriagem(loteId));
+  }
+
+  function verDetalhes(lote: Lote) {
+    navigate(`/lotes/${lote.id}/triagens/${lote.ultimaTriagemId}`);
   }
 
   return (
@@ -117,12 +118,9 @@ export function Home() {
             />
             {erroIdentificacao && <p className="mt-1 text-xs text-red-600">{erroIdentificacao}</p>}
           </div>
-          <button
-            type="submit"
-            className="mt-5 h-fit rounded-md bg-sage-700 px-4 py-2 font-medium text-white hover:bg-sage-800"
-          >
+          <Button type="submit" className="mt-5 h-fit">
             Adicionar
-          </button>
+          </Button>
         </form>
       </div>
 
@@ -170,17 +168,20 @@ export function Home() {
                 </>
               ) : (
                 <>
-                  <button
-                    onClick={() => iniciarTriagem(lote.id)}
-                    className="rounded-md bg-sage-700 px-3 py-1.5 text-white hover:bg-sage-800"
-                  >
-                    Iniciar Triagem
-                  </button>
+                  {lote.ultimaTriagemId == null ? (
+                    <Button size="sm" onClick={() => iniciarTriagem(lote.id)}>
+                      Iniciar Triagem
+                    </Button>
+                  ) : (
+                    <Button size="sm" onClick={() => verDetalhes(lote)}>
+                      Ver detalhes
+                    </Button>
+                  )}
                   <button
                     onClick={() => iniciarEdicao(lote)}
                     aria-label="Editar lote"
                     title="Editar"
-                    className="rounded-md p-1.5 text-gray-500 hover:bg-gray-100 hover:text-sage-700"
+                    className="rounded-full p-1.5 text-gray-500 transition-colors hover:bg-cream-100 hover:text-sage-700"
                   >
                     <IconPencil />
                   </button>
@@ -188,7 +189,7 @@ export function Home() {
                     onClick={() => excluirLote(lote.id)}
                     aria-label="Excluir lote"
                     title="Excluir"
-                    className="rounded-md p-1.5 text-gray-500 hover:bg-red-50 hover:text-red-600"
+                    className="rounded-full p-1.5 text-gray-500 transition-colors hover:bg-red-50 hover:text-red-600"
                   >
                     <IconTrash />
                   </button>

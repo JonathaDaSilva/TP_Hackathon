@@ -6,6 +6,7 @@ import { useAuth } from "../context/AuthContext";
 import { getErrorMessage, getFieldErrors } from "../services/api";
 import { AuthLayout } from "../components/AuthLayout";
 import { PasswordStrength } from "../components/PasswordStrength";
+import { Button } from "../components/Button";
 
 export function Cadastro() {
   const { registrar } = useAuth();
@@ -91,13 +92,9 @@ export function Cadastro() {
             {senhaFoiTocada && <PasswordStrength senha={senha} />}
           </div>
 
-          <button
-            type="submit"
-            disabled={enviando}
-            className="w-full rounded-md bg-sage-700 py-2 font-medium text-white hover:bg-sage-800 disabled:opacity-60"
-          >
+          <Button type="submit" disabled={enviando} fullWidth>
             {enviando ? "Criando conta..." : "Criar conta"}
-          </button>
+          </Button>
         </form>
 
         <p className="mt-5 text-sm text-gray-600">

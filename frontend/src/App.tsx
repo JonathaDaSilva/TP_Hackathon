@@ -11,6 +11,7 @@ import { Home } from "./pages/Home";
 import { Contato } from "./pages/Contato";
 import { InstrucoesQuiz } from "./pages/InstrucoesQuiz";
 import { Quiz } from "./pages/Quiz";
+import { RelatorioTriagem } from "./pages/RelatorioTriagem";
 import { Instrucoes } from "./pages/Instrucoes";
 import { NotFound } from "./pages/NotFound";
 
@@ -60,6 +61,7 @@ function App() {
               <Route path="/instrucoes" element={<Instrucoes />} />
               <Route path="/lotes/:loteId/instrucoes" element={<InstrucoesQuiz />} />
               <Route path="/lotes/:loteId/quiz" element={<Quiz />} />
+              <Route path="/lotes/:loteId/triagens/:triagemId" element={<RelatorioTriagem />} />
             </Route>
           </Route>
         </Routes>

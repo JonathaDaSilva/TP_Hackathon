@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { Button, buttonClasses } from "./Button";
 
 export function NavBar() {
   const { usuario, logout } = useAuth();
@@ -15,7 +16,7 @@ export function NavBar() {
   return (
     <header className="sticky top-0 z-20 border-b border-gray-200 bg-white">
       <nav className="flex w-full items-center justify-between px-6 py-3">
-        <Link to="/" className="text-lg font-semibold text-sage-800">
+        <Link to="/" className="font-display text-xl tracking-wide text-sage-800">
           ProOvo
         </Link>
 
@@ -39,25 +40,16 @@ export function NavBar() {
                 </span>
                 {usuario.nome}
               </span>
-              <button
-                onClick={handleLogout}
-                className="rounded-md border border-gray-300 px-3 py-1.5 font-medium text-gray-700 hover:border-sage-600 hover:text-sage-700"
-              >
+              <Button variant="secondary" size="sm" onClick={handleLogout}>
                 Sair
-              </button>
+              </Button>
             </div>
           ) : (
             <div className="flex items-center gap-3">
-              <Link
-                to="/login"
-                className="rounded-md border border-gray-300 px-3 py-1.5 font-medium text-gray-700 hover:border-sage-600 hover:text-sage-700"
-              >
+              <Link to="/login" className={buttonClasses({ variant: "secondary", size: "sm" })}>
                 Entrar
               </Link>
-              <Link
-                to="/cadastro"
-                className="rounded-md bg-sage-700 px-3 py-1.5 font-medium text-white hover:bg-sage-800"
-              >
+              <Link to="/cadastro" className={buttonClasses({ variant: "primary", size: "sm" })}>
                 Cadastrar
               </Link>
             </div>

@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { toast } from "sonner";
 import { api, getErrorMessage } from "../services/api";
 import { Breadcrumb } from "../components/Breadcrumb";
+import { Button, buttonClasses } from "../components/Button";
 import type { CategoriaComPerguntas, Cenario, TriagemResultado } from "../services/types";
 
 interface PerguntaComCategoria {
@@ -153,7 +154,7 @@ export function Quiz() {
             >
               {resultado.cenarioRotulo}
             </span>
-            <p className="mt-4 text-3xl font-bold text-gray-900">
+            <p className="font-tech mt-4 text-3xl font-bold text-gray-900">
               {resultado.pontuacaoTotal}
               <span className="text-lg font-normal text-gray-400">/60</span>
             </p>
@@ -161,7 +162,7 @@ export function Quiz() {
 
             <Link
               to={`/lotes/${loteId}/triagens/${resultado.id}`}
-              className="mt-6 inline-block rounded-md bg-sage-700 px-4 py-2 text-sm font-medium text-white hover:bg-sage-800"
+              className={buttonClasses({ className: "mt-6" })}
             >
               Ver relatório completo
             </Link>
@@ -200,22 +201,16 @@ export function Quiz() {
               </div>
 
               <div className="mt-6 flex items-center justify-between">
-                <button
-                  type="button"
-                  onClick={handleVoltar}
-                  disabled={indiceAtual === 0}
-                  className="rounded-md border border-cream-border px-4 py-2 text-sm text-gray-700 hover:border-sage-300 disabled:cursor-not-allowed disabled:opacity-50"
-                >
+                <Button type="button" variant="secondary" onClick={handleVoltar} disabled={indiceAtual === 0}>
                   Voltar
-                </button>
-                <button
+                </Button>
+                <Button
                   type="button"
                   onClick={handleProxima}
                   disabled={respostaAtualSelecionada === undefined || enviando}
-                  className="rounded-md bg-sage-700 px-4 py-2 text-sm font-medium text-white hover:bg-sage-800 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   {ehUltima ? (enviando ? "Enviando..." : "Enviar") : "Próxima"}
-                </button>
+                </Button>
               </div>
             </div>
           )

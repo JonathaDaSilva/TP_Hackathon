@@ -1,6 +1,7 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { IconBook } from "./icons";
+import { Button } from "./Button";
 
 function IconInicio() {
   return (
@@ -48,10 +49,8 @@ export function Sidebar() {
   return (
     <aside className="sticky top-0 flex h-screen w-60 shrink-0 flex-col self-start overflow-y-auto bg-ink-950 text-cream-100">
       <div className="flex items-center gap-2 px-5 py-5">
-        <span className="flex h-6 w-6 items-center justify-center rounded-md bg-sage-600">
-          <span className="h-2 w-2 rounded-full bg-white" />
-        </span>
-        <Link to="/home" className="text-base font-semibold text-white">
+        <img src="/ovo-white.png" alt="" className="h-7 w-7" />
+        <Link to="/home" className="font-display text-lg tracking-wide text-white">
           ProOvo
         </Link>
       </div>
@@ -86,12 +85,9 @@ export function Sidebar() {
           Conta
         </p>
         <p className="mt-1 truncate px-3 text-sm text-cream-100/80">{usuario?.nome}</p>
-        <button
-          onClick={handleLogout}
-          className="mt-2 w-full rounded-md border border-ink-700 px-3 py-2 text-sm text-cream-100/90 hover:bg-ink-900"
-        >
+        <Button variant="outlineDark" size="sm" fullWidth onClick={handleLogout} className="mt-2">
           Sair
-        </button>
+        </Button>
       </div>
     </aside>
   );
