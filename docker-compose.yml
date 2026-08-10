@@ -31,7 +31,7 @@ services:
       DB_PASSWORD: avicola
       JWT_SECRET: ${JWT_SECRET:-dev-only-super-secret-key-troque-em-producao-32chars+}
       JWT_EXPIRATION_MINUTES: ${JWT_EXPIRATION_MINUTES:-60}
-      CORS_ALLOWED_ORIGIN: http://localhost:5173
+      CORS_ALLOWED_ORIGINS: http://localhost:5173
     ports:
       - "8080:8080"
     healthcheck:

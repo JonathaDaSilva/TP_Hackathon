@@ -7,14 +7,20 @@ spring:
     password: ${DB_PASSWORD:avicola}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     open-in-view: false
     properties:
       hibernate:
         format_sql: true
+  flyway:
+    baseline-on-migrate: true
+    baseline-version: 1
 
 server:
-  port: ${SERVER_PORT:8080}
+  # ${PORT} é injetado automaticamente por plataformas como o Render; em
+  # desenvolvimento/Docker local, nenhuma das duas variáveis existe e cai
+  # no padrão 8080.
+  port: ${SERVER_PORT:${PORT:8080}}
 
 management:
   endpoints:
@@ -30,4 +36,6 @@ app:
     secret: ${JWT_SECRET:dev-only-super-secret-key-troque-em-producao-32chars+}
     expiration-minutes: ${JWT_EXPIRATION_MINUTES:60}
   cors:
-    allowed-origin: ${CORS_ALLOWED_ORIGIN:http://localhost:5173}
+    # Lista separada por vírgula; aceita padrão com "*" (ex: https://*.vercel.app
+    # para cobrir os deploys de preview, além do domínio de produção fixo).
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:5173}

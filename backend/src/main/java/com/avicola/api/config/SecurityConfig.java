@@ -17,6 +17,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Configuration
@@ -25,8 +26,8 @@ public class SecurityConfig {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    @Value("${app.cors.allowed-origin}")
-    private String allowedOrigin;
+    @Value("${app.cors.allowed-origins}")
+    private String allowedOrigins;
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -60,8 +61,15 @@ public class SecurityConfig {
     }
 
     private CorsConfigurationSource corsConfigurationSource() {
+        List<String> origens = Arrays.stream(allowedOrigins.split(","))
+                .map(String::trim)
+                .filter(origem -> !origem.isEmpty())
+                .toList();
+
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(List.of(allowedOrigin));
+        // Patterns (não "setAllowedOrigins") pra aceitar tanto origens exatas
+        // quanto wildcard (ex: https://*.vercel.app nos deploys de preview).
+        configuration.setAllowedOriginPatterns(origens);
         configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(List.of("*"));
 

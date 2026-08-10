@@ -20,7 +20,8 @@ public class ContatoService {
 
     @Transactional
     public void enviar(ContatoRequest request) {
-        MensagemContato mensagem = MensagemContato.registrar(request.nome(), new Email(request.email()), request.mensagem());
+        MensagemContato mensagem = MensagemContato.registrar(
+                request.nome(), new Email(request.email()), request.tipo(), request.mensagem());
         mensagemContatoRepository.salvar(mensagem);
     }
 }
