@@ -1,5 +1,6 @@
 package com.avicola.api.controller;
 
+import com.avicola.api.dto.LoteDtos.LotePaginaResponse;
 import com.avicola.api.dto.LoteDtos.LoteRequest;
 import com.avicola.api.dto.LoteDtos.LoteResponse;
 import com.avicola.api.security.AuthenticatedUser;
@@ -9,8 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/lotes")
 @RequiredArgsConstructor
@@ -19,8 +18,11 @@ public class LoteController {
     private final LoteService loteService;
 
     @GetMapping
-    public List<LoteResponse> listar() {
-        return loteService.listar(AuthenticatedUser.getUsuarioId());
+    public LotePaginaResponse listar(
+            @RequestParam(required = false) Integer pagina,
+            @RequestParam(required = false) Integer tamanho
+    ) {
+        return loteService.listar(AuthenticatedUser.getUsuarioId(), pagina, tamanho);
     }
 
     @GetMapping("/{id}")

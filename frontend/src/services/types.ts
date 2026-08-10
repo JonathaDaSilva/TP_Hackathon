@@ -17,6 +17,14 @@ export interface Lote {
   ultimaTriagemId: number | null;
 }
 
+export interface LotePagina {
+  conteudo: Lote[];
+  pagina: number;
+  tamanho: number;
+  totalElementos: number;
+  totalPaginas: number;
+}
+
 export interface OpcaoResposta {
   id: number;
   texto: string;

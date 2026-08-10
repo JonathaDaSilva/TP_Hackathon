@@ -7,12 +7,16 @@ import { caminhoIniciarTriagem } from "../services/preferences";
 import { Breadcrumb } from "../components/Breadcrumb";
 import { IconPencil, IconTrash } from "../components/icons";
 import { Button } from "../components/Button";
-import type { Lote } from "../services/types";
+import type { Lote, LotePagina } from "../services/types";
+
+const TAMANHO_PAGINA = 10;
 
 export function Home() {
   const { usuario } = useAuth();
   const navigate = useNavigate();
   const [lotes, setLotes] = useState<Lote[]>([]);
+  const [pagina, setPagina] = useState(0);
+  const [totalPaginas, setTotalPaginas] = useState(1);
   const [carregando, setCarregando] = useState(true);
   const [novaIdentificacao, setNovaIdentificacao] = useState("");
   const [erroIdentificacao, setErroIdentificacao] = useState<string | null>(null);
@@ -21,14 +25,19 @@ export function Home() {
   const [erroEdicao, setErroEdicao] = useState<string | null>(null);
 
   useEffect(() => {
-    carregarLotes();
+    carregarLotes(0);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  async function carregarLotes() {
+  async function carregarLotes(paginaAlvo: number) {
     setCarregando(true);
     try {
-      const { data } = await api.get<Lote[]>("/lotes");
-      setLotes(data);
+      const { data } = await api.get<LotePagina>("/lotes", {
+        params: { pagina: paginaAlvo, tamanho: TAMANHO_PAGINA },
+      });
+      setLotes(data.conteudo);
+      setPagina(data.pagina);
+      setTotalPaginas(Math.max(data.totalPaginas, 1));
     } catch (err) {
       toast.error(getErrorMessage(err, "Não foi possível carregar seus lotes."));
     } finally {
@@ -43,10 +52,11 @@ export function Home() {
     setErroIdentificacao(null);
 
     try {
-      const { data } = await api.post<Lote>("/lotes", { identificacao: novaIdentificacao });
-      setLotes((atual) => [data, ...atual]);
+      await api.post<Lote>("/lotes", { identificacao: novaIdentificacao });
       setNovaIdentificacao("");
       toast.success("Lote cadastrado com sucesso.");
+      // Lote novo entra ordenado por criadoEm desc, então volta pra 1ª página.
+      await carregarLotes(0);
     } catch (err) {
       const camposInvalidos = getFieldErrors(err);
       if (camposInvalidos?.identificacao) {
@@ -80,11 +90,21 @@ export function Home() {
   async function excluirLote(id: number) {
     try {
       await api.delete(`/lotes/${id}`);
-      setLotes((atual) => atual.filter((l) => l.id !== id));
       toast.success("Lote excluído com sucesso.");
+      // Se era o último item da página (e não a 1ª), volta uma página.
+      const paginaAlvo = lotes.length === 1 && pagina > 0 ? pagina - 1 : pagina;
+      await carregarLotes(paginaAlvo);
     } catch (err) {
       toast.error(getErrorMessage(err, "Não foi possível excluir o lote."));
     }
+  }
+
+  function irParaPaginaAnterior() {
+    if (pagina > 0) carregarLotes(pagina - 1);
+  }
+
+  function irParaProximaPagina() {
+    if (pagina + 1 < totalPaginas) carregarLotes(pagina + 1);
   }
 
   function iniciarTriagem(loteId: number) {
@@ -199,6 +219,28 @@ export function Home() {
           </div>
         ))}
       </div>
+
+      {!carregando && totalPaginas > 1 && (
+        <div className="mt-4 flex items-center justify-between text-sm text-gray-600">
+          <button
+            onClick={irParaPaginaAnterior}
+            disabled={pagina === 0}
+            className="font-medium text-sage-700 hover:underline disabled:cursor-not-allowed disabled:text-gray-300 disabled:no-underline"
+          >
+            Anterior
+          </button>
+          <span>
+            Página {pagina + 1} de {totalPaginas}
+          </span>
+          <button
+            onClick={irParaProximaPagina}
+            disabled={pagina + 1 >= totalPaginas}
+            className="font-medium text-sage-700 hover:underline disabled:cursor-not-allowed disabled:text-gray-300 disabled:no-underline"
+          >
+            Próxima
+          </button>
+        </div>
+      )}
     </div>
   );
 }
