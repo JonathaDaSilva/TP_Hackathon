@@ -7,9 +7,6 @@ services:
     dockerContext: ./backend
     healthCheckPath: /actuator/health
     envVars:
-      # DB_URL deve ser o JDBC completo, ex:
-      #   jdbc:postgresql://<host-do-neon>/<database>?sslmode=require
-      # (usuário e senha vão nas duas variáveis abaixo, não dentro da URL)
       - key: DB_URL
         sync: false
       - key: DB_USER
