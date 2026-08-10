@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8" />
+    <title>Relatório de Triagem</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 2.6cm 2.2cm 2.4cm 2.2cm;
+            @bottom-center {
+                content: "Página " counter(page) " de " counter(pages);
+                font-family: Helvetica, Arial, sans-serif;
+                font-size: 8pt;
+                color: #9ca3af;
+            }
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            color: #263626;
+            font-size: 10.5pt;
+            line-height: 1.55;
+        }
+
+        .marca-eyebrow {
+            font-size: 8pt;
+            font-weight: bold;
+            letter-spacing: 1.5px;
+            color: #5f8a6f;
+            text-transform: uppercase;
+            margin: 0;
+        }
+
+        .titulo {
+            font-size: 22pt;
+            font-weight: bold;
+            color: #1b271d;
+            margin: 4px 0 0 0;
+        }
+
+        .cabecalho {
+            border-bottom: 1.5px solid #e2ded0;
+            padding-bottom: 16px;
+            margin-bottom: 22px;
+        }
+
+        .meta-tabela {
+            width: 100%;
+            margin-top: 16px;
+            border-collapse: collapse;
+        }
+        .meta-tabela td {
+            padding: 0;
+            vertical-align: top;
+            font-size: 9.5pt;
+        }
+        .meta-rotulo {
+            display: block;
+            font-size: 7.5pt;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #9ca3af;
+            margin-bottom: 3px;
+        }
+        .meta-valor {
+            color: #344a35;
+            font-weight: bold;
+        }
+
+        .painel-resultado {
+            margin-top: 24px;
+            padding: 18px 22px;
+            background-color: #f5f4ee;
+            border: 1px solid #e2ded0;
+            border-left: 5px solid #4d7259;
+            border-radius: 6px;
+            page-break-inside: avoid;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 999px;
+            font-size: 9pt;
+            font-weight: bold;
+            letter-spacing: 0.3px;
+        }
+
+        .pontuacao-legenda {
+            margin: 14px 0 0 0;
+            font-size: 8.5pt;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .pontuacao {
+            font-size: 30pt;
+            font-weight: bold;
+            color: #1b271d;
+            margin: 2px 0 0 0;
+        }
+        .pontuacao .max {
+            font-size: 13pt;
+            font-weight: normal;
+            color: #9ca3af;
+        }
+
+        .resumo {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid #d8d3c2;
+            font-size: 11pt;
+            color: #263626;
+        }
+
+        .secao-titulo {
+            margin-top: 30px;
+            margin-bottom: 4px;
+            font-size: 12.5pt;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+        .secao-titulo.diagnostico {
+            color: #263626;
+        }
+        .secao-titulo.recomendacoes {
+            color: #3d5c47;
+        }
+
+        .secao-regua {
+            height: 2.5px;
+            width: 36px;
+            margin-bottom: 14px;
+        }
+        .secao-regua.diagnostico {
+            background-color: #263626;
+        }
+        .secao-regua.recomendacoes {
+            background-color: #4d7259;
+        }
+
+        ul.lista {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        ul.lista li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 11px;
+            font-size: 10.5pt;
+            page-break-inside: avoid;
+        }
+        ul.lista li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+            font-size: 13pt;
+            line-height: 1;
+        }
+        ul.diagnostico li:before {
+            color: #6b7280;
+        }
+        ul.recomendacoes li:before {
+            color: #4d7259;
+        }
+
+        .rodape {
+            margin-top: 40px;
+            padding-top: 12px;
+            border-top: 1px solid #e2ded0;
+            font-size: 8pt;
+            color: #9ca3af;
+        }
+    </style>
+</head>
+<body>
+    <div class="cabecalho">
+        <p class="marca-eyebrow">ProOvo — Plataforma de Manejo e Saúde Avícola</p>
+        <p class="titulo">Relatório de Triagem</p>
+
+        <table class="meta-tabela">
+            <tr>
+                <td style="width:60%;">
+                    <span class="meta-rotulo">Lote</span>
+                    <span class="meta-valor" th:text="${relatorio.loteIdentificacao()}">Identificação do lote</span>
+                </td>
+                <td style="width:40%;">
+                    <span class="meta-rotulo">Triagem realizada em</span>
+                    <span class="meta-valor" th:text="${respondidoEmFormatado}">01/01/2026 às 00:00</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="painel-resultado">
+        <span class="badge"
+              th:text="${relatorio.cenarioRotulo()}"
+              th:style="${relatorio.cenario() == 'ESTAVEL' ? 'background-color:#e3ebe5;color:#3d5c47;' : (relatorio.cenario() == 'ATENCAO' ? 'background-color:#fef3c7;color:#92400e;' : 'background-color:#fee2e2;color:#991b1b;')}">Estável</span>
+
+        <p class="pontuacao-legenda">Pontuação total da triagem</p>
+        <p class="pontuacao">
+            <span th:text="${relatorio.pontuacaoTotal()}">0</span><span class="max">/60</span>
+        </p>
+
+        <p class="resumo" th:text="${relatorio.resumo()}">Resumo do cenário.</p>
+    </div>
+
+    <p class="secao-titulo diagnostico">Diagnóstico</p>
+    <div class="secao-regua diagnostico"></div>
+    <ul class="lista diagnostico">
+        <li th:each="item : ${relatorio.diagnostico()}" th:text="${item}">Item de diagnóstico</li>
+    </ul>
+
+    <p class="secao-titulo recomendacoes">Recomendações</p>
+    <div class="secao-regua recomendacoes"></div>
+    <ul class="lista recomendacoes">
+        <li th:each="item : ${relatorio.dicas()}" th:text="${item}">Item de recomendação</li>
+    </ul>
+
+    <div class="rodape">
+        Este relatório é gerado automaticamente com base nas respostas da triagem e tem caráter orientativo.
+        Em caso de dúvida, consulte um Médico Veterinário de confiança.
+    </div>
+</body>
+</html>

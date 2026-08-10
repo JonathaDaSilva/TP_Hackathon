@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useAuth } from "../context/AuthContext";
 import { getErrorMessage, getFieldErrors } from "../services/api";
 import { AuthLayout } from "../components/AuthLayout";
+import { Button } from "../components/Button";
 
 export function Login() {
   const { login } = useAuth();
@@ -71,13 +72,9 @@ export function Login() {
             {errosCampo.senha && <p className="mt-1 text-xs text-red-600">{errosCampo.senha}</p>}
           </div>
 
-          <button
-            type="submit"
-            disabled={enviando}
-            className="w-full rounded-md bg-sage-700 py-2 font-medium text-white hover:bg-sage-800 disabled:opacity-60"
-          >
+          <Button type="submit" disabled={enviando} fullWidth>
             {enviando ? "Entrando..." : "Entrar"}
-          </button>
+          </Button>
         </form>
 
         <p className="mt-5 text-sm text-gray-600">

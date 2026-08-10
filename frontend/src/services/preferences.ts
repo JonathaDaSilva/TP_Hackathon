@@ -11,3 +11,7 @@ export function setPularInstrucoesQuiz(pular: boolean): void {
     localStorage.removeItem(PULAR_INSTRUCOES_KEY);
   }
 }
+
+export function caminhoIniciarTriagem(loteId: number): string {
+  return getPularInstrucoesQuiz() ? `/lotes/${loteId}/quiz` : `/lotes/${loteId}/instrucoes`;
+}

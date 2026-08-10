@@ -2,10 +2,12 @@ package com.avicola.api.infrastructure.persistence;
 
 import com.avicola.api.domain.model.Lote;
 import com.avicola.api.domain.repository.LoteRepository;
+import com.avicola.api.domain.repository.Pagina;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -20,8 +22,15 @@ class LoteRepositoryImpl implements LoteRepository {
     }
 
     @Override
-    public List<Lote> buscarPorUsuarioId(Long usuarioId) {
-        return jpaRepository.findByUsuario_IdOrderByCriadoEmDesc(usuarioId);
+    public Pagina<Lote> buscarPorUsuarioId(Long usuarioId, int pagina, int tamanho) {
+        Page<Lote> resultado = jpaRepository.findByUsuario_IdOrderByCriadoEmDesc(usuarioId, PageRequest.of(pagina, tamanho));
+        return new Pagina<>(
+                resultado.getContent(),
+                resultado.getNumber(),
+                resultado.getSize(),
+                resultado.getTotalElements(),
+                resultado.getTotalPages()
+        );
     }
 
     @Override

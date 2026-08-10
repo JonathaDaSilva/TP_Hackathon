@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getPularInstrucoesQuiz, setPularInstrucoesQuiz } from "../services/preferences";
 import { Breadcrumb } from "../components/Breadcrumb";
+import { Button } from "../components/Button";
 
 const DICAS = [
   "Responda com base no que você observou nos últimos dias no galpão, não só no momento exato do preenchimento.",
@@ -64,14 +65,15 @@ export function InstrucoesQuiz() {
         </div>
       </div>
 
-      <button
+      <Button
         type="button"
         disabled={!confirmouLeitura}
         onClick={handleContinuar}
-        className="mt-6 w-full rounded-md bg-sage-700 py-2 font-medium text-white hover:bg-sage-800 disabled:cursor-not-allowed disabled:opacity-50"
+        fullWidth
+        className="mt-6"
       >
         Continuar para o quiz
-      </button>
+      </Button>
     </div>
   );
 }

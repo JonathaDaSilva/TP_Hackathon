@@ -1,84 +1,220 @@
+import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { toast } from "sonner";
+import { api, getErrorMessage } from "../services/api";
 import { Breadcrumb } from "../components/Breadcrumb";
+import { Button, buttonClasses } from "../components/Button";
+import type { CategoriaComPerguntas, Cenario, TriagemResultado } from "../services/types";
 
-const CATEGORIAS = [
-  { nome: "Ambiente do Galpão", status: "atual" as const },
-  { nome: "Saúde do Lote", status: "pendente" as const },
-  { nome: "Qualidade dos Ovos", status: "pendente" as const },
-];
+interface PerguntaComCategoria {
+  categoriaId: number;
+  categoriaNome: string;
+  itemNaCategoria: number;
+  totalNaCategoria: number;
+  pergunta: CategoriaComPerguntas["perguntas"][number];
+}
+
+const CENARIO_ESTILO: Record<Cenario, string> = {
+  ESTAVEL: "bg-sage-100 text-sage-800",
+  ATENCAO: "bg-amber-100 text-amber-800",
+  ALERTA: "bg-red-100 text-red-800",
+};
 
 export function Quiz() {
   const { loteId } = useParams<{ loteId: string }>();
 
+  const [categorias, setCategorias] = useState<CategoriaComPerguntas[]>([]);
+  const [carregando, setCarregando] = useState(true);
+  const [indiceAtual, setIndiceAtual] = useState(0);
+  const [respostas, setRespostas] = useState<Record<number, number>>({});
+  const [enviando, setEnviando] = useState(false);
+  const [resultado, setResultado] = useState<TriagemResultado | null>(null);
+
+  useEffect(() => {
+    async function carregar() {
+      try {
+        const { data } = await api.get<CategoriaComPerguntas[]>("/questionario");
+        setCategorias(data);
+      } catch (err) {
+        toast.error(getErrorMessage(err, "Não foi possível carregar o questionário."));
+      } finally {
+        setCarregando(false);
+      }
+    }
+
+    carregar();
+  }, []);
+
+  const perguntasFlat = useMemo<PerguntaComCategoria[]>(
+    () =>
+      categorias.flatMap((categoria) =>
+        categoria.perguntas.map((pergunta, indice) => ({
+          categoriaId: categoria.id,
+          categoriaNome: categoria.nome,
+          itemNaCategoria: indice + 1,
+          totalNaCategoria: categoria.perguntas.length,
+          pergunta,
+        }))
+      ),
+    [categorias]
+  );
+
+  const totalRespondidas = Object.keys(respostas).length;
+  const atual = perguntasFlat[indiceAtual];
+  const ehUltima = indiceAtual === perguntasFlat.length - 1;
+  const respostaAtualSelecionada = atual ? respostas[atual.pergunta.id] : undefined;
+
+  function selecionarResposta(perguntaId: number, opcaoId: number) {
+    setRespostas((atual) => ({ ...atual, [perguntaId]: opcaoId }));
+  }
+
+  function handleVoltar() {
+    setIndiceAtual((indice) => Math.max(0, indice - 1));
+  }
+
+  async function handleProxima() {
+    if (!ehUltima) {
+      setIndiceAtual((indice) => indice + 1);
+      return;
+    }
+
+    setEnviando(true);
+    try {
+      const payload = {
+        respostas: perguntasFlat.map(({ pergunta }) => ({
+          perguntaId: pergunta.id,
+          opcaoRespostaId: respostas[pergunta.id],
+        })),
+      };
+      const { data } = await api.post<TriagemResultado>(`/lotes/${loteId}/triagens`, payload);
+      setResultado(data);
+    } catch (err) {
+      toast.error(getErrorMessage(err, "Não foi possível enviar a triagem."));
+    } finally {
+      setEnviando(false);
+    }
+  }
+
+  if (carregando) {
+    return (
+      <div className="mx-auto max-w-4xl px-8 py-8">
+        <p className="text-sm text-gray-500">Carregando questionário...</p>
+      </div>
+    );
+  }
+
+  if (perguntasFlat.length === 0) {
+    return (
+      <div className="mx-auto max-w-4xl px-8 py-8">
+        <p className="text-sm text-gray-500">
+          O questionário de triagem ainda não está disponível. Tente novamente mais tarde.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="mx-auto max-w-4xl px-8 py-8">
-      <Breadcrumb items={[{ label: "Painel", to: "/home" }, { label: "Triagem", to: "/home" }, { label: `Lote ${loteId}` }]} />
+      <Breadcrumb
+        items={[{ label: "Painel", to: "/home" }, { label: "Triagem", to: "/home" }, { label: `Lote ${loteId}` }]}
+      />
 
       <div className="mt-6 grid gap-6 md:grid-cols-[220px_1fr]">
         <div className="rounded-xl border border-cream-border bg-white p-5 shadow-sm">
           <p className="text-xs font-medium uppercase tracking-wide text-gray-400">Categorias</p>
           <ul className="mt-3 space-y-2.5">
-            {CATEGORIAS.map((categoria) => (
-              <li key={categoria.nome} className="flex items-center gap-2 text-sm">
-                <span
-                  className={`h-2 w-2 rounded-full ${
-                    categoria.status === "atual" ? "bg-sage-700" : "bg-cream-border"
-                  }`}
-                />
-                <span className={categoria.status === "atual" ? "font-medium text-gray-900" : "text-gray-400"}>
-                  {categoria.nome}
-                </span>
-              </li>
-            ))}
+            {categorias.map((categoria) => {
+              const ativa = !resultado && categoria.id === atual?.categoriaId;
+              return (
+                <li key={categoria.id} className="flex items-center gap-2 text-sm">
+                  <span className={`h-2 w-2 rounded-full ${ativa ? "bg-sage-700" : "bg-cream-border"}`} />
+                  <span className={ativa ? "font-medium text-gray-900" : "text-gray-400"}>{categoria.nome}</span>
+                </li>
+              );
+            })}
           </ul>
 
           <div className="mt-5 border-t border-cream-border pt-4">
-            <p className="text-xs text-gray-500">0 de 12 concluídas</p>
+            <p className="text-xs text-gray-500">
+              {totalRespondidas} de {perguntasFlat.length} concluídas
+            </p>
             <div className="mt-1.5 h-1.5 w-full rounded-full bg-cream-100">
-              <div className="h-1.5 w-0 rounded-full bg-sage-700" />
+              <div
+                className="h-1.5 rounded-full bg-sage-700 transition-all"
+                style={{ width: `${(totalRespondidas / perguntasFlat.length) * 100}%` }}
+              />
             </div>
           </div>
         </div>
 
-        <div className="rounded-xl border border-cream-border bg-white p-6 shadow-sm">
-          <p className="text-xs text-gray-400">Ambiente do Galpão · item 1</p>
-          <h1 className="mt-1 text-lg font-semibold text-gray-900">Pergunta 1</h1>
-
-          <div className="mt-4 space-y-2 opacity-60">
-            {["Opção A", "Opção B", "Opção C"].map((opcao) => (
-              <label
-                key={opcao}
-                className="flex cursor-not-allowed items-center gap-2.5 rounded-md border border-cream-border px-3 py-2.5 text-sm text-gray-500"
-              >
-                <input type="radio" disabled name="pergunta-placeholder" />
-                {opcao}
-              </label>
-            ))}
-          </div>
-
-          <div className="mt-6 flex items-center justify-between">
-            <button
-              type="button"
-              disabled
-              className="cursor-not-allowed rounded-md border border-cream-border px-4 py-2 text-sm text-gray-400"
+        {resultado ? (
+          <div className="rounded-xl border border-cream-border bg-white p-6 text-center shadow-sm">
+            <span
+              className={`inline-flex items-center rounded-full px-4 py-1.5 text-sm font-semibold ${CENARIO_ESTILO[resultado.cenario]}`}
             >
-              Voltar
-            </button>
-            <button
-              type="button"
-              disabled
-              className="cursor-not-allowed rounded-md bg-cream-border px-4 py-2 text-sm text-gray-400"
-            >
-              Próxima
-            </button>
-          </div>
+              {resultado.cenarioRotulo}
+            </span>
+            <p className="font-tech mt-4 text-3xl font-bold text-gray-900">
+              {resultado.pontuacaoTotal}
+              <span className="text-lg font-normal text-gray-400">/60</span>
+            </p>
+            <p className="mt-1 text-sm text-gray-500">Pontuação total da triagem</p>
 
-          <p className="mt-6 rounded-md bg-cream-50 p-3 text-xs text-gray-500">
-            Prévia de layout — as perguntas, opções e a lógica de pontuação deste quiz ainda
-            dependem do conteúdo que a equipe de negócios vai entregar. Assim que o conteúdo
-            estiver pronto, esta tela passa a funcionar de verdade.
-          </p>
-        </div>
+            <Link
+              to={`/lotes/${loteId}/triagens/${resultado.id}`}
+              className={buttonClasses({ className: "mt-6" })}
+            >
+              Ver relatório completo
+            </Link>
+
+            <Link to="/home" className="mt-3 block text-sm text-sage-700 hover:underline">
+              Voltar para meus lotes
+            </Link>
+          </div>
+        ) : (
+          atual && (
+            <div className="rounded-xl border border-cream-border bg-white p-6 shadow-sm">
+              <p className="text-xs text-gray-400">
+                {atual.categoriaNome} · item {atual.itemNaCategoria} de {atual.totalNaCategoria}
+              </p>
+              <h1 className="mt-1 text-lg font-semibold text-gray-900">{atual.pergunta.enunciado}</h1>
+
+              <div className="mt-4 space-y-2">
+                {atual.pergunta.opcoes.map((opcao) => (
+                  <label
+                    key={opcao.id}
+                    className={`flex cursor-pointer items-center gap-2.5 rounded-md border px-3 py-2.5 text-sm transition ${
+                      respostaAtualSelecionada === opcao.id
+                        ? "border-sage-600 bg-sage-50 text-gray-900"
+                        : "border-cream-border text-gray-700 hover:border-sage-300"
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name={`pergunta-${atual.pergunta.id}`}
+                      checked={respostaAtualSelecionada === opcao.id}
+                      onChange={() => selecionarResposta(atual.pergunta.id, opcao.id)}
+                    />
+                    {opcao.texto}
+                  </label>
+                ))}
+              </div>
+
+              <div className="mt-6 flex items-center justify-between">
+                <Button type="button" variant="secondary" onClick={handleVoltar} disabled={indiceAtual === 0}>
+                  Voltar
+                </Button>
+                <Button
+                  type="button"
+                  onClick={handleProxima}
+                  disabled={respostaAtualSelecionada === undefined || enviando}
+                >
+                  {ehUltima ? (enviando ? "Enviando..." : "Enviar") : "Próxima"}
+                </Button>
+              </div>
+            </div>
+          )
+        )}
       </div>
 
       <Link to="/home" className="mt-6 inline-block text-sm text-sage-700 hover:underline">
