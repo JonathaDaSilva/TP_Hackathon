@@ -5,23 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d01e498d-f7d5-410f-a40e-2ce1cd92c0c7" name="Changes" comment="style: estilização">
-      <change afterPath="$PROJECT_DIR$/frontend/public/ovo-green.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/favicon.svg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/public/ovo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/AuthLayout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/AuthLayout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/NavBar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/NavBar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Sidebar.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Sidebar.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Cadastro.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Cadastro.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Contato.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Contato.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Home.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Home.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/InstrucoesQuiz.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/InstrucoesQuiz.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Login.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/NotFound.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/NotFound.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Quiz.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Quiz.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CLAUDE.md" beforeDir="false" afterPath="$PROJECT_DIR$/CLAUDE.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/avicola/api/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/avicola/api/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,6 +102,7 @@
       <workItem from="1785853018308" duration="5765000" />
       <workItem from="1786055641120" duration="4250000" />
       <workItem from="1786106214046" duration="1836000" />
+      <workItem from="1786386457439" duration="4835000" />
     </task>
     <task id="LOCAL-00001" summary="chore: Config intelliJ">
       <option name="closed" value="true" />

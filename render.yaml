@@ -1,0 +1,23 @@
+# Como usar: no painel do Render, "New" > "Blueprint", aponte para este
+# repositório. O Render lê este arquivo e cria o serviço abaixo.
+services:
+  - type: web
+    name: proovo-backend
+    runtime: docker
+    plan: free
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    healthCheckPath: /actuator/health
+    envVars:
+      - key: postgresql://ep-damp-poetry-acrzdey4.sa-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+        sync: false
+      - key: neondb_owner
+        sync: false
+      - key: npg_isVjgE3NIDS9@
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRATION_MINUTES
+        value: "60"
+      - key: CORS_ALLOWED_ORIGINS
+        value: "https://SEU-PROJETO.vercel.app,https://*.vercel.app"
