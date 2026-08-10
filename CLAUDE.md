@@ -21,6 +21,15 @@ docker compose up --build -d
 
 **Sem H2/perfil de teste** — os testes do backend rodam contra o Postgres real.
 
+## Deploy (produção)
+
+Stack gratuita escolhida: **Vercel** (frontend) + **Render** (backend, via [render.yaml](render.yaml), Docker) + **Neon** (Postgres). Passo a passo completo em [DEPLOY.md](DEPLOY.md). Decisões relevantes pro código:
+
+- `server.port` em `application.yml` cai em cascata `SERVER_PORT` → `PORT` (injetado automaticamente pelo Render) → `8080` (padrão local).
+- CORS deixou de aceitar uma origem só: `CORS_ALLOWED_ORIGIN` virou `CORS_ALLOWED_ORIGINS` (plural, separado por vírgula, com suporte a wildcard tipo `https://*.vercel.app` via `setAllowedOriginPatterns`) — necessário porque a Vercel gera uma URL de preview diferente por branch/PR.
+- `frontend/.env.production` (`VITE_API_URL=/api`) só funciona no deploy via Docker/nginx (proxy interno pro container do backend, ver `frontend/nginx.conf`) — a Vercel **não** usa esse arquivo, precisa da variável `VITE_API_URL` configurada manualmente no painel dela apontando pra URL pública do Render.
+- Postgres free do próprio Render expira em 30 dias — por isso o banco em produção é o Neon (free permanente), não o do Render.
+
 ## Arquitetura do backend — DDD leve
 
 Decisão consciente: **não é DDD tático completo** (sem bounded contexts, sem módulos separados) — é um único módulo Maven com pacotes por camada, escolhido deliberadamente por ser um MVP de hackathon com pouco tempo. Padrão a seguir sempre que adicionar algo novo:
