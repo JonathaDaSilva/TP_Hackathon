@@ -77,8 +77,15 @@
 			<scope>runtime</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.flywaydb</groupId>
-			<artifactId>flyway-core</artifactId>
+			<!-- No Spring Boot 4.x a auto-configuração do Flyway virou um starter
+			     próprio (pacote org.springframework.boot.flyway.autoconfigure) —
+			     só o flyway-core no classpath (como era antes) não é mais
+			     suficiente pra disparar as migrations no boot. Esse starter traz
+			     o flyway-core transitivamente, mas não o módulo específico do
+			     Postgres (Flyway 10+ separou suporte por banco) — por isso o
+			     flyway-database-postgresql abaixo continua explícito. -->
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-flyway</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.flywaydb</groupId>

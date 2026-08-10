@@ -23,10 +23,15 @@ Guia passo a passo pra colocar o ProOvo no ar sem custo, sem cartão de crédito
    postgresql://usuario:senha@ep-xxxxx.região.aws.neon.tech/nomedobanco?sslmode=require
    ```
    ⚠️ Use a **connection string direta** (o host **sem** `-pooler` no nome). O Neon também oferece uma variante com PgBouncer (host com `-pooler`), recomendada pra cenários serverless/alta concorrência — não é o nosso caso (uma única instância do Render, HikariCP já faz o pooling do lado da aplicação) e o modo de pooling por transação do PgBouncer pode dar problema com `PREPARE`/comandos de sessão que o Flyway usa ao rodar as migrations no boot.
-3. Quebre a connection string em **3 partes** pro Render (o Spring separa URL/usuário/senha, ao contrário da string única do Neon):
-   - `DB_URL` → `jdbc:postgresql://ep-xxxxx.região.aws.neon.tech/nomedobanco?sslmode=require` (repare no prefixo `jdbc:` e que usuário/senha **não** entram aqui)
-   - `DB_USER` → `usuario`
-   - `DB_PASSWORD` → `senha`
+3. Quebre a connection string em **3 partes** pro Render (o Spring separa URL/usuário/senha, ao contrário da string única do Neon). Exemplo — a partir de:
+   ```
+   postgresql://neondb_owner:SuaSenha@ep-xxxxx.sa-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+   ```
+   preencha assim no Render:
+   - `DB_URL` → `jdbc:postgresql://ep-xxxxx.sa-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require`
+     ⚠️ **O erro mais comum aqui é esquecer o `jdbc:` na frente** — sem ele o Spring quebra no boot com `'url' must start with "jdbc"`. Usuário e senha **não** entram nessa URL, só host/banco/parâmetros.
+   - `DB_USER` → `neondb_owner`
+   - `DB_PASSWORD` → `SuaSenha`
 4. Não precisa criar tabelas manualmente — o Flyway roda as migrations sozinho no primeiro boot do backend.
 
 ## 2. Render (backend)
