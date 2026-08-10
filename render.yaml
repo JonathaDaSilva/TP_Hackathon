@@ -1,5 +1,3 @@
-# Como usar: no painel do Render, "New" > "Blueprint", aponte para este
-# repositório. O Render lê este arquivo e cria o serviço abaixo.
 services:
   - type: web
     name: proovo-backend
@@ -9,11 +7,14 @@ services:
     dockerContext: ./backend
     healthCheckPath: /actuator/health
     envVars:
-      - key: postgresql://ep-damp-poetry-acrzdey4.sa-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require
+      # DB_URL deve ser o JDBC completo, ex:
+      #   jdbc:postgresql://<host-do-neon>/<database>?sslmode=require
+      # (usuário e senha vão nas duas variáveis abaixo, não dentro da URL)
+      - key: DB_URL
         sync: false
-      - key: neondb_owner
+      - key: DB_USER
         sync: false
-      - key: npg_isVjgE3NIDS9@
+      - key: DB_PASSWORD
         sync: false
       - key: JWT_SECRET
         generateValue: true
