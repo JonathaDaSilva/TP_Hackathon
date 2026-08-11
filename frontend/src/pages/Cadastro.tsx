@@ -7,6 +7,7 @@ import { getErrorMessage, getFieldErrors } from "../services/api";
 import { AuthLayout } from "../components/AuthLayout";
 import { PasswordStrength } from "../components/PasswordStrength";
 import { Button } from "../components/Button";
+import { PasswordInput } from "../components/PasswordInput";
 
 export function Cadastro() {
   const { registrar } = useAuth();
@@ -14,13 +15,21 @@ export function Cadastro() {
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
   const [senhaFoiTocada, setSenhaFoiTocada] = useState(false);
   const [errosCampo, setErrosCampo] = useState<Record<string, string>>({});
   const [enviando, setEnviando] = useState(false);
 
+  const senhasNaoCoincidem = confirmarSenha.length > 0 && senha !== confirmarSenha;
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
     setErrosCampo({});
+
+    if (senha !== confirmarSenha) {
+      return;
+    }
+
     setEnviando(true);
 
     try {
@@ -78,21 +87,33 @@ export function Cadastro() {
 
           <div>
             <label className="block text-sm font-medium text-gray-700">Senha</label>
-            <input
-              type="password"
+            <PasswordInput
               required
               minLength={10}
               maxLength={15}
               value={senha}
               onFocus={() => setSenhaFoiTocada(true)}
               onChange={(e) => setSenha(e.target.value)}
-              className="mt-1 w-full rounded-md border border-gray-200 px-3 py-2 focus:border-sage-600 focus:outline-none"
+              className="mt-1"
             />
             {errosCampo.senha && <p className="mt-1 text-xs text-red-600">{errosCampo.senha}</p>}
             {senhaFoiTocada && <PasswordStrength senha={senha} />}
           </div>
 
-          <Button type="submit" disabled={enviando} fullWidth>
+          <div>
+            <label className="block text-sm font-medium text-gray-700">Confirmar senha</label>
+            <PasswordInput
+              required
+              minLength={10}
+              maxLength={15}
+              value={confirmarSenha}
+              onChange={(e) => setConfirmarSenha(e.target.value)}
+              className="mt-1"
+            />
+            {senhasNaoCoincidem && <p className="mt-1 text-xs text-red-600">As senhas não coincidem.</p>}
+          </div>
+
+          <Button type="submit" disabled={enviando || senhasNaoCoincidem} fullWidth>
             {enviando ? "Criando conta..." : "Criar conta"}
           </Button>
         </form>

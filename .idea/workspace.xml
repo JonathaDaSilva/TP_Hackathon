@@ -4,11 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d01e498d-f7d5-410f-a40e-2ce1cd92c0c7" name="Changes" comment="fix: correção do arquivo render.yaml">
-      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" />
+    <list default="true" id="d01e498d-f7d5-410f-a40e-2ce1cd92c0c7" name="Changes" comment="chore: delete arquivos desnecessários">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/.env.example" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/.env.production" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/icons.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/icons.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Cadastro.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Cadastro.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/pages/Login.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/pages/Login.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,26 +53,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ModuleVcsDetector.initialDetectionPerformed": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "main",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/temp/Projetos/TP_Hackathon/frontend/public",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "ml.llm.LLMConfigurable",
-    "ts.external.directory.path": "C:\\temp\\Projetos\\TP_Hackathon\\frontend\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/temp/Projetos/TP_Hackathon/frontend/public&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;ml.llm.LLMConfigurable&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\temp\\Projetos\\TP_Hackathon\\frontend\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\temp\Projetos\TP_Hackathon\frontend\public" />
@@ -102,6 +102,7 @@
       <workItem from="1786055641120" duration="4250000" />
       <workItem from="1786106214046" duration="1836000" />
       <workItem from="1786386457439" duration="4835000" />
+      <workItem from="1786473871623" duration="720000" />
     </task>
     <task id="LOCAL-00001" summary="chore: Config intelliJ">
       <option name="closed" value="true" />
@@ -191,7 +192,15 @@
       <option name="project" value="LOCAL" />
       <updated>1786403315810</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="chore: delete arquivos desnecessários">
+      <option name="closed" value="true" />
+      <created>1786407235086</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1786407235086</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -225,7 +234,8 @@
     <MESSAGE value="Refact: Formulário de contato" />
     <MESSAGE value="refactor: quiz triagem" />
     <MESSAGE value="fix: correção do arquivo render.yaml" />
-    <option name="LAST_COMMIT_MESSAGE" value="fix: correção do arquivo render.yaml" />
+    <MESSAGE value="chore: delete arquivos desnecessários" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore: delete arquivos desnecessários" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
