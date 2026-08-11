@@ -18,4 +18,4 @@ services:
       - key: JWT_EXPIRATION_MINUTES
         value: "60"
       - key: CORS_ALLOWED_ORIGINS
-        value: "https://SEU-PROJETO.vercel.app,https://*.vercel.app"
+        value: "https://prooovo.vercel.app/,https://*.vercel.app"
