@@ -21,6 +21,9 @@ export function NavBar() {
         </Link>
 
         <div className="flex items-center gap-5 text-sm">
+          <Link to="/sobre" className="text-gray-600 hover:text-sage-700">
+            Sobre Nós
+          </Link>
           <Link to="/contato" className="text-gray-600 hover:text-sage-700">
             Fale Conosco
           </Link>
