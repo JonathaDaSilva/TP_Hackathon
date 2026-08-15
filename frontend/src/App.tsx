@@ -5,6 +5,7 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import { PublicLayout } from "./components/PublicLayout";
 import { AppShell } from "./components/AppShell";
 import { Landing } from "./pages/Landing";
+import { Sobre } from "./pages/Sobre";
 import { Login } from "./pages/Login";
 import { Cadastro } from "./pages/Cadastro";
 import { Home } from "./pages/Home";
@@ -50,6 +51,7 @@ function App() {
 
           <Route element={<PublicLayout />}>
             <Route path="/" element={<Landing />} />
+            <Route path="/sobre" element={<Sobre />} />
             <Route path="/login" element={<Login />} />
             <Route path="/cadastro" element={<Cadastro />} />
             <Route path="*" element={<NotFound />} />
