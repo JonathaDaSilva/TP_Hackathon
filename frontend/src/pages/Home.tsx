@@ -116,7 +116,7 @@ export function Home() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-8 py-8">
+    <div className="mx-auto max-w-3xl px-4 py-8 sm:px-8">
       <Breadcrumb items={[{ label: "Painel" }, { label: "Início" }]} />
 
       <h1 className="mt-3 text-2xl font-semibold text-gray-900">Olá, {usuario?.nome}</h1>
@@ -154,9 +154,9 @@ export function Home() {
         )}
 
         {lotes.map((lote) => (
-          <div key={lote.id} className="flex items-center justify-between gap-3 p-5">
+          <div key={lote.id} className="flex flex-wrap items-center justify-between gap-3 p-5">
             {editandoId === lote.id ? (
-              <div className="flex-1">
+              <div className="min-w-0 flex-1">
                 <input
                   type="text"
                   value={edicaoTexto}
@@ -167,10 +167,10 @@ export function Home() {
                 {erroEdicao && <p className="mt-1 text-xs text-red-600">{erroEdicao}</p>}
               </div>
             ) : (
-              <span className="font-medium text-gray-800">{lote.identificacao}</span>
+              <span className="min-w-0 flex-1 truncate font-medium text-gray-800">{lote.identificacao}</span>
             )}
 
-            <div className="flex shrink-0 gap-2 text-sm">
+            <div className="flex shrink-0 flex-wrap gap-2 text-sm">
               {editandoId === lote.id ? (
                 <>
                   <button

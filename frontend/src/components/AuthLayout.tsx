@@ -12,7 +12,7 @@ export function AuthLayout({ titulo, subtitulo, children }: AuthLayoutProps) {
     <div className="grid min-h-[calc(100vh-57px)] lg:grid-cols-2">
       {/* Formulário com a foto ao fundo — o card do formulário é opaco, então
           a foto só "respira" no espaço ao redor dele. */}
-      <div className="relative flex items-center justify-center overflow-hidden px-4 py-16">
+      <div className="relative flex items-center justify-center overflow-hidden px-4 py-10 sm:py-16">
         <img className="absolute inset-0 h-full w-full object-cover" src={loginImg} alt="" />
         <div className="absolute inset-0 bg-gradient-to-b from-cream-50/75 via-cream-50/40 to-cream-50/75" />
         <div className="relative w-full max-w-sm">{children}</div>

@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import { IconBook } from "./icons";
+import { IconBook, IconClose } from "./icons";
 import { Button } from "./Button";
 
 function IconInicio() {
@@ -36,59 +36,91 @@ const NAV_ITEMS = [
   { label: "Fale conosco", to: "/contato", icon: IconContato },
 ];
 
-export function Sidebar() {
+interface SidebarProps {
+  aberta: boolean;
+  onFechar: () => void;
+}
+
+export function Sidebar({ aberta, onFechar }: SidebarProps) {
   const { usuario, logout } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
   function handleLogout() {
+    onFechar();
     logout();
     navigate("/");
   }
 
   return (
-    <aside className="sticky top-0 flex h-screen w-60 shrink-0 flex-col self-start overflow-y-auto bg-ink-950 text-cream-100">
-      <div className="flex items-center gap-2 px-5 py-5">
-        <img src="/ovo-white.png" alt="" className="h-7 w-7" />
-        <Link to="/home" className="font-display text-lg tracking-wide text-white">
-          ProOvo
-        </Link>
-      </div>
+    <>
+      {/* Overlay — só existe (e só faz sentido) abaixo de lg, quando a gaveta está aberta */}
+      {aberta && (
+        <div
+          className="fixed inset-0 z-30 bg-ink-950/60 lg:hidden"
+          onClick={onFechar}
+          aria-hidden="true"
+        />
+      )}
 
-      <nav className="mt-2 flex-1 space-y-1 px-3">
-        {NAV_ITEMS.map((item) => {
-          const ativo =
-            item.to === "/home"
-              ? location.pathname === "/home" || location.pathname.startsWith("/lotes")
-              : location.pathname === item.to;
-          const Icon = item.icon;
-
-          return (
-            <Link
-              key={item.label}
-              to={item.to}
-              className={`flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition ${
-                ativo
-                  ? "bg-ink-800 font-medium text-white"
-                  : "text-cream-100/70 hover:bg-ink-900 hover:text-white"
-              }`}
-            >
-              <Icon />
-              {item.label}
+      <aside
+        className={`fixed inset-y-0 left-0 z-40 flex h-screen w-64 shrink-0 flex-col overflow-y-auto bg-ink-950 text-cream-100 transition-transform duration-200 ease-out lg:sticky lg:top-0 lg:w-60 lg:translate-x-0 ${
+          aberta ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between px-5 py-5">
+          <div className="flex items-center gap-2">
+            <img src="/ovo-white.png" alt="" className="h-7 w-7" />
+            <Link to="/home" className="font-display text-lg tracking-wide text-white" onClick={onFechar}>
+              ProOvo
             </Link>
-          );
-        })}
-      </nav>
+          </div>
+          <button
+            type="button"
+            onClick={onFechar}
+            aria-label="Fechar menu"
+            className="rounded-md p-1 text-cream-100/70 hover:bg-ink-900 hover:text-white lg:hidden"
+          >
+            <IconClose className="h-5 w-5" />
+          </button>
+        </div>
 
-      <div className="border-t border-ink-800 px-3 py-4">
-        <p className="px-3 text-[11px] font-medium uppercase tracking-wide text-cream-100/40">
-          Conta
-        </p>
-        <p className="mt-1 truncate px-3 text-sm text-cream-100/80">{usuario?.nome}</p>
-        <Button variant="outlineDark" size="sm" fullWidth onClick={handleLogout} className="mt-2">
-          Sair
-        </Button>
-      </div>
-    </aside>
+        <nav className="mt-2 flex-1 space-y-1 px-3">
+          {NAV_ITEMS.map((item) => {
+            const ativo =
+              item.to === "/home"
+                ? location.pathname === "/home" || location.pathname.startsWith("/lotes")
+                : location.pathname === item.to;
+            const Icon = item.icon;
+
+            return (
+              <Link
+                key={item.label}
+                to={item.to}
+                onClick={onFechar}
+                className={`flex items-center gap-2.5 rounded-md px-3 py-2 text-sm transition ${
+                  ativo
+                    ? "bg-ink-800 font-medium text-white"
+                    : "text-cream-100/70 hover:bg-ink-900 hover:text-white"
+                }`}
+              >
+                <Icon />
+                {item.label}
+              </Link>
+            );
+          })}
+        </nav>
+
+        <div className="border-t border-ink-800 px-3 py-4">
+          <p className="px-3 text-[11px] font-medium uppercase tracking-wide text-cream-100/40">
+            Conta
+          </p>
+          <p className="mt-1 truncate px-3 text-sm text-cream-100/80">{usuario?.nome}</p>
+          <Button variant="outlineDark" size="sm" fullWidth onClick={handleLogout} className="mt-2">
+            Sair
+          </Button>
+        </div>
+      </aside>
+    </>
   );
 }
