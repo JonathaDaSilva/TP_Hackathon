@@ -114,7 +114,7 @@ export function Quiz() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-8 py-8">
+    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-8">
       <Breadcrumb
         items={[{ label: "Painel", to: "/home" }, { label: "Triagem", to: "/home" }, { label: `Lote ${loteId}` }]}
       />

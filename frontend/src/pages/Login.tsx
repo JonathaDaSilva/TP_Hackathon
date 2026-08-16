@@ -44,7 +44,7 @@ export function Login() {
       titulo="Bem-vindo(a) de volta"
       subtitulo="Acompanhe a saúde dos seus lotes e retome de onde parou."
     >
-      <div className="w-full max-w-sm rounded-xl border border-cream-border bg-white p-8 shadow-sm">
+      <div className="w-full max-w-sm rounded-xl border border-cream-border bg-white p-6 shadow-sm sm:p-8">
         <h1 className="text-2xl font-semibold text-gray-900">Entrar</h1>
         <p className="mt-1 text-sm text-gray-500">Acesse sua conta para continuar a triagem.</p>
 

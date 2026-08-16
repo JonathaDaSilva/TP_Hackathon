@@ -3,7 +3,7 @@ import { IconBook } from "../components/icons";
 
 export function Instrucoes() {
   return (
-    <div className="mx-auto max-w-2xl px-8 py-8">
+    <div className="mx-auto max-w-2xl px-4 py-8 sm:px-8">
       <Breadcrumb items={[{ label: "Painel", to: "/home" }, { label: "Instruções" }]} />
 
       <h1 className="mt-3 text-2xl font-semibold text-gray-900">Instruções</h1>

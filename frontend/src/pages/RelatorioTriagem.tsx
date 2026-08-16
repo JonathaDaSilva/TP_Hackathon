@@ -81,7 +81,7 @@ export function RelatorioTriagem() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-8 py-8">
+    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-8">
       <Breadcrumb
         items={[
           { label: "Painel", to: "/home" },
@@ -90,7 +90,7 @@ export function RelatorioTriagem() {
         ]}
       />
 
-      <div className="mt-6 rounded-xl border border-cream-border bg-white p-6 shadow-sm">
+      <div className="mt-6 rounded-xl border border-cream-border bg-white p-4 shadow-sm sm:p-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
             <span
@@ -107,7 +107,7 @@ export function RelatorioTriagem() {
             </p>
           </div>
 
-          <div className="flex shrink-0 gap-2">
+          <div className="flex w-full flex-wrap gap-2 sm:w-auto">
             <Button type="button" variant="secondary" onClick={handleRefazerTeste}>
               Refazer o teste
             </Button>
